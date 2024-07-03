@@ -1,0 +1,18 @@
+﻿services:
+  
+  postgres:
+    image: postgres:latest
+    container_name: postgres-cats
+    environment:
+      POSTGRES_DB: cats
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    command: -p 5433
+
+volumes:
+  postgresdata:
+    driver: local
