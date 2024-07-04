@@ -34,7 +34,7 @@ public class PositionsController : ControllerBase
 
         if (position == null)
         {
-            return NotFound();
+            return NotFound("No position with such id.");
         }
 
         return position;
@@ -45,10 +45,18 @@ public class PositionsController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Position>> CreatePosition(Position position)
     {
+        var cat = await _context.Cats.FindAsync(position.CatId);
+        if (cat == null)
+        {
+            return NotFound("Invalid catId");
+        }
+
+        position.Cat = cat;
+
         _context.Positions.Add(position);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetPosition", new { id = position.Id }, position);
+        return CreatedAtAction(nameof(GetPosition), new { id = position.Id }, position);
     }
 
     // PUT: api/positions/5
@@ -58,7 +66,13 @@ public class PositionsController : ControllerBase
     {
         if (id != position.Id)
         {
-            return BadRequest();
+            return NotFound("No position with such id.");
+        }
+        
+        var cat = await _context.Cats.FindAsync(position.CatId);
+        if (cat == null)
+        {
+            return BadRequest("Invalid CatId");
         }
 
         _context.Entry(position).State = EntityState.Modified;
@@ -71,7 +85,7 @@ public class PositionsController : ControllerBase
         {
             if (!PositionExists(id))
             {
-                return NotFound();
+                return NotFound("Invalid positionId");
             }
             else
             {
@@ -80,6 +94,28 @@ public class PositionsController : ControllerBase
         }
 
         return NoContent();
+    }
+    
+    // POST: api/positions/purchase/5
+    [HttpPost("purchase/{id}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> PurchasePosition(int id)
+    {
+        var position = await _context.Positions.Include(p => p.Cat).FirstOrDefaultAsync(p => p.Id == id);
+        if (position == null)
+        {
+            return NotFound("No position with such id.");
+        }
+        
+        _context.Positions.Remove(position);
+        if (position.Cat != null)
+        {
+            _context.Cats.Remove(position.Cat);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok("Position and associated cat purchased successfully.");
     }
 
     // DELETE: api/positions/5
@@ -90,7 +126,7 @@ public class PositionsController : ControllerBase
         var position = await _context.Positions.FindAsync(id);
         if (position == null)
         {
-            return NotFound();
+            return NotFound("No position with such id.");
         }
 
         _context.Positions.Remove(position);

@@ -7,5 +7,5 @@ public class Position
     public DateTime DateModified { get; set; }
     public decimal Price { get; set; }
     public int CatId { get; set; }
-    public Cat Cat { get; set; }
+    public Cat? Cat { get; set; }
 }
