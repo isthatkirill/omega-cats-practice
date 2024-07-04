@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Cat> Cats { get; set; }
     public DbSet<Position> Positions { get; set; }
+    public DbSet<LogEntry> LogEntries { get; set; }
 
     
     // создание таблиц и тестовых данных (несколько котов, позиций и админа)

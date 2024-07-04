@@ -1,6 +1,7 @@
 ﻿using cats.auth;
 using Microsoft.AspNetCore.Authentication;
 using cats.Data;
+using cats.services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +26,8 @@ public class Startup
         services.AddAuthentication("BasicAuthentication")
             .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
+        services.AddScoped<ILogService, LogService>();
+        
         services.AddAuthorization(options =>
         {
             options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));

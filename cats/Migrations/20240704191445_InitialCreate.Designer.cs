@@ -12,7 +12,7 @@ using cats.Data;
 namespace cats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240703200431_InitialCreate")]
+    [Migration("20240704191445_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -71,6 +71,34 @@ namespace cats.Migrations
                         });
                 });
 
+            modelBuilder.Entity("cats.Models.LogEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RequestUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogEntries");
+                });
+
             modelBuilder.Entity("cats.Models.Position", b =>
                 {
                     b.Property<int>("Id")
@@ -102,16 +130,16 @@ namespace cats.Migrations
                         {
                             Id = 1,
                             CatId = 1,
-                            DateAdded = new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4790),
-                            DateModified = new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4794),
+                            DateAdded = new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6419),
+                            DateModified = new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6425),
                             Price = 100.00m
                         },
                         new
                         {
                             Id = 2,
                             CatId = 2,
-                            DateAdded = new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4800),
-                            DateModified = new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4801),
+                            DateAdded = new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6428),
+                            DateModified = new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6428),
                             Price = 150.00m
                         });
                 });

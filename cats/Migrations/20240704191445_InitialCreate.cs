@@ -31,6 +31,22 @@ namespace cats.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LogEntries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    RequestUrl = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogEntries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -109,8 +125,8 @@ namespace cats.Migrations
                 columns: new[] { "Id", "CatId", "DateAdded", "DateModified", "Price" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4790), new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4794), 100.00m },
-                    { 2, 2, new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4800), new DateTime(2024, 7, 3, 20, 4, 30, 507, DateTimeKind.Utc).AddTicks(4801), 150.00m }
+                    { 1, 1, new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6419), new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6425), 100.00m },
+                    { 2, 2, new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6428), new DateTime(2024, 7, 4, 19, 14, 45, 167, DateTimeKind.Utc).AddTicks(6428), 150.00m }
                 });
 
             migrationBuilder.InsertData(
@@ -136,6 +152,9 @@ namespace cats.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "LogEntries");
+
             migrationBuilder.DropTable(
                 name: "Positions");
 
