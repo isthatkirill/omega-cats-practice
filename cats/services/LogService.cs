@@ -1,7 +1,7 @@
 ﻿using cats.Data;
 using cats.Models;
 
-namespace cats.services;
+namespace cats.Services;
 
 public class LogService : ILogService
 {

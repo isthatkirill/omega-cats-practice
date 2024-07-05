@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using cats.Data;
 using cats.Models;
-using cats.services;
+using cats.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace cats.Controllers;

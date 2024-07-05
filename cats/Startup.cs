@@ -1,7 +1,7 @@
-﻿using cats.auth;
+﻿using cats.Auth;
 using Microsoft.AspNetCore.Authentication;
 using cats.Data;
-using cats.services;
+using cats.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 

@@ -7,7 +7,7 @@ using System.Text.Encodings.Web;
 using cats.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace cats.auth;
+namespace cats.Auth;
 
 public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {

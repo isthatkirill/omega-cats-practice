@@ -1,4 +1,4 @@
-﻿namespace cats.services;
+﻿namespace cats.Services;
 
 public interface ILogService
 {
