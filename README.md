@@ -22,7 +22,9 @@
 
 ### ER-диаграмма используемой БД
 
-(https://github.com/isthatkirill/omega-cats-practice/blob/main/resources/er.png)
+<p align="left">
+ <img width="400px" src="https://github.com/isthatkirill/omega-cats-practice/blob/main/resources/er.png" alt="er"/>
+</p>
 
 ### Инструкция по запуску
 
