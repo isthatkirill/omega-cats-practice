@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using cats.Data;
+﻿using cats.Data;
 using cats.Models;
 using cats.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace cats.Controllers;
@@ -38,10 +38,7 @@ public class PositionsController : ControllerBase
         await LogIfAuthenticated("GetPosition", Request.Path, $"Requested position ID: {id}");
         var position = await _context.Positions.Include(p => p.Cat).FirstOrDefaultAsync(p => p.Id == id);
 
-        if (position == null)
-        {
-            return NotFound();
-        }
+        if (position == null) return NotFound();
 
         return position;
     }
@@ -52,10 +49,7 @@ public class PositionsController : ControllerBase
     public async Task<ActionResult<Position>> CreatePosition(Position position)
     {
         var cat = await _context.Cats.FindAsync(position.CatId);
-        if (cat == null)
-        {
-            return NotFound("Invalid catId");
-        }
+        if (cat == null) return NotFound("Invalid catId");
 
         position.Cat = cat;
 
@@ -72,23 +66,14 @@ public class PositionsController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdatePosition(int id, Position position)
     {
-        if (id != position.Id)
-        {
-            return BadRequest();
-        }
+        if (id != position.Id) return BadRequest();
 
         var existingPosition = await _context.Positions.FindAsync(id);
-        if (existingPosition == null)
-        {
-            return NotFound("Invalid positionId");
-        }
+        if (existingPosition == null) return NotFound("Invalid positionId");
 
         var cat = await _context.Cats.FindAsync(position.CatId);
-        if (cat == null)
-        {
-            return BadRequest("Invalid CatId");
-        }
-        
+        if (cat == null) return BadRequest("Invalid CatId");
+
         existingPosition.Price = position.Price;
         existingPosition.CatId = position.CatId;
 
@@ -102,13 +87,8 @@ public class PositionsController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!PositionExists(id))
-            {
                 return NotFound("Invalid positionId");
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -120,10 +100,7 @@ public class PositionsController : ControllerBase
     public async Task<IActionResult> DeletePosition(int id)
     {
         var position = await _context.Positions.FindAsync(id);
-        if (position == null)
-        {
-            return NotFound();
-        }
+        if (position == null) return NotFound();
 
         _context.Positions.Remove(position);
         await _context.SaveChangesAsync();
@@ -139,16 +116,10 @@ public class PositionsController : ControllerBase
     public async Task<IActionResult> PurchasePosition(int id)
     {
         var position = await _context.Positions.Include(p => p.Cat).FirstOrDefaultAsync(p => p.Id == id);
-        if (position == null)
-        {
-            return NotFound();
-        }
-        
+        if (position == null) return NotFound();
+
         _context.Positions.Remove(position);
-        if (position.Cat != null)
-        {
-            _context.Cats.Remove(position.Cat);
-        }
+        if (position.Cat != null) _context.Cats.Remove(position.Cat);
 
         await _context.SaveChangesAsync();
         await LogIfAuthenticated("PurchasePosition", Request.Path, $"Purchased position ID: {id}");

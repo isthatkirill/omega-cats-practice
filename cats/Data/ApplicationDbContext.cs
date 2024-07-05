@@ -15,9 +15,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Position> Positions { get; set; }
     public DbSet<LogEntry> LogEntries { get; set; }
 
-    
+
     // создание таблиц и тестовых данных (несколько котов, позиций и админа)
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>().HasData(
